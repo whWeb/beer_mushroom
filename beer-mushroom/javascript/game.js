@@ -91,7 +91,7 @@
 		scoreImg.src = "images/score.png";
 		for(var i = 0; i <6; i++){
 			livesImg[i] = new Image();
-			livesImg[i].src = "images/lives" +¡¡i + ".png";
+			livesImg[i].src = "images/lives"+i+ ".png";
 		}
 		mushroom.image = mushroomImg;
 		beer.image = beerImg;
