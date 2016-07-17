@@ -63,7 +63,8 @@
 	
 	function addHandles(){
 		$('#container').mousemove(function(e){
-			mushroom.x = e.pageX - (mushroom.image.width/2);
+			var container = document.getElementById('container');
+			mushroom.x = e.pageX - (mushroom.image.width/2) - container.offsetLeft;
 		})
 		$('#startBtn').click(function(){
 			gameStart();
