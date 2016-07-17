@@ -1,0 +1,28 @@
+/* CSS Document */
+#container{
+margin:0px auto;
+}
+#container #restart{
+display:block;
+font-size:50px;
+position:absolute;
+top:0px;
+left:0px;
+}
+#container span{
+display:block;
+width:180px;
+height:60px;
+cursor:pointer;
+border-radius:5px;
+margin:0px auto;
+text-align:center;
+position:absolute;
+background-color:#FFFFAA;
+}
+img{
+position:absolute;
+left:200px;
+top:195px;
+display:inline-block;
+}
