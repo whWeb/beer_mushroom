@@ -1,42 +1,42 @@
 // JavaScript Document
 (function($){
-	//È«¾Ö±äÁ¿
+	//å…¨å±€å˜é‡
 	var gamerunning = false;
 	var id = 0;
-	var lives = 5; //ÉúÃüÊı
+	var lives = 5; //ç”Ÿå‘½æ•°
 	var score = 0;
 	var livesImg = new Array();
 	var backgroundImg = new Image();
 	var mushroomImg = new Image();
 	var beerImg = new Image();
-	var flowerImg = new Image();//½±Æ·ÏÊ»¨
-	var leafImg = new Image();//½±Æ·Ò¶×Ó
-	var acornImg = new Image();//½±Æ·Ïğ×Ó
+	var flowerImg = new Image();//å¥–å“é²œèŠ±
+	var leafImg = new Image();//å¥–å“å¶å­
+	var acornImg = new Image();//å¥–å“æ©¡å­
 	var scoreImg = new Image();
 	var screenX = 0;
 	var screenY = 0;
 	var ctx;
 	var speed = 2; 
-	var horizonSpeed = speed; //ĞÜË®Æ½ËÙ¶È
-	var verticalSpeed = -speed; //ĞÜ´¹Ö±ËÙ¶È
-	var beerAngle = 2; // ĞÜĞı×ªµÄ½Ç¶È	
+	var horizonSpeed = speed; //ç†Šæ°´å¹³é€Ÿåº¦
+	var verticalSpeed = -speed; //ç†Šå‚ç›´é€Ÿåº¦
+	var beerAngle = 2; // ç†Šæ—‹è½¬çš„è§’åº¦	
 	
-	//¹«ÓÃ ¶¨ÒåÓÎÏ·ÎïÌå
+	//å…¬ç”¨ å®šä¹‰æ¸¸æˆç‰©ä½“
 	function gameObject(){
 		this.x = 0;
 		this.y = 0;
 		this.image = null;
 	}
-	//¶¨ÒåÄ¢¹½ ¼Ì³ĞÓÎÏ·¶ÔÏógameObject
+	//å®šä¹‰è˜‘è‡ ç»§æ‰¿æ¸¸æˆå¯¹è±¡gameObject
 	function Mushroom(){};
 	Mushroom.prototype = new gameObject();
     var mushroom = new Mushroom();
-	//¶¨ÒåĞÜ
+	//å®šä¹‰ç†Š
 	function Beer(){};
 	Beer.prototype = new gameObject();
 	Beer.prototype.angle = 0;
 	var beer = new Beer();
-	//¶¨Òå½±Æ·Êı×éPrizesºÍ¶ÔÏóPrize£¬¼Ì³ĞÓÎÏ·¶ÔÏóGameObject
+	//å®šä¹‰å¥–å“æ•°ç»„Prizeså’Œå¯¹è±¡Prizeï¼Œç»§æ‰¿æ¸¸æˆå¯¹è±¡GameObject
 	var prizes = new Array();
 	function Prize(){};
 	Prize.prototype = new gameObject();
@@ -57,7 +57,7 @@
 		beer.x =  parseInt(screenX/2);
 		beer.y =  parseInt(screenY/2);
 		
-		//³õÊ¼»¯½±Æ·
+		//åˆå§‹åŒ–å¥–å“
 		initPrize();
 	});
 	
@@ -75,7 +75,7 @@
 		gamerunning = !gamerunning;
 		if(gamerunning){
 			$('#startBtn').hide();
-			id = setInterval(drawImg, 10);
+			id = setInterval(drawImg, 16.7);
 		}else{
 			clearInterval(id);
 		}	
@@ -83,12 +83,12 @@
 		
 	function loadImages()   
 	{   
-		backgroundImg.src = "images/forest.jpg";//É­ÁÖ±³¾°Í¼  
-		mushroomImg.src = "images/mushroom.png";//Ä¢¹½  
-		beerImg.src = "images/bear_eyesclosed.png"; //ĞÜ
-		flowerImg.src = "images/flower.png";//½±Æ·»¨
-		acornImg.src = "images/acorn.png";//½±Æ·Ïğ×Ó
-		leafImg.src = "images/leaf.png";//½±Æ·Ò¶×Ó	
+		backgroundImg.src = "images/forest.jpg";//æ£®æ—èƒŒæ™¯å›¾  
+		mushroomImg.src = "images/mushroom.png";//è˜‘è‡  
+		beerImg.src = "images/bear_eyesclosed.png"; //ç†Š
+		flowerImg.src = "images/flower.png";//å¥–å“èŠ±
+		acornImg.src = "images/acorn.png";//å¥–å“æ©¡å­
+		leafImg.src = "images/leaf.png";//å¥–å“å¶å­	
 		scoreImg.src = "images/score.png";
 		for(var i = 0; i <6; i++){
 			livesImg[i] = new Image();
@@ -100,30 +100,30 @@
 		backgroundImg.onload = function(){ drawImg();}
 	}
 
-	//´´½¨½±Æ·Êı×é
+	//åˆ›å»ºå¥–å“æ•°ç»„
 	function initPrize(){
 		var count = 0;
 		for(var x = 0; x < 3; x++){
 			for(var y = 0; y < 23; y++){
 				prize = new Prize();
 				if(x==0){
-					prize.image = flowerImg;//ÏÊ»¨·ÅÔÚµÚÒ»ĞĞ
+					prize.image = flowerImg;//é²œèŠ±æ”¾åœ¨ç¬¬ä¸€è¡Œ
 					prize.point = 3;
 				}
 				if(x==1){
-					prize.image = acornImg;//Ô¥×Ó¸ÕÔÚµÚ2ĞĞ
+					prize.image = acornImg;//è±«å­åˆšåœ¨ç¬¬2è¡Œ
 					prize.point = 2;
 				}
 				if(x==2){
-					prize.image = leafImg;//Ò¶×Ó·ÅÔÚµÚ3ĞĞ	
+					prize.image = leafImg;//å¶å­æ”¾åœ¨ç¬¬3è¡Œ	
 					prize.point = 1;
 				}
 				prize.hit = false;
 				prize.row = x;
 				prize.col = y;
-				prize.x = 20 * prize.col + 10;//xÖáÎ»ÖÃ
-				prize.y = 20 * prize.row + 40;//yÖáÎ»ÖÃ
-				//×²µ½½±Æ·Êı×é£¬ÓÃÀ´Ãè»æ
+				prize.x = 20 * prize.col + 10;//xè½´ä½ç½®
+				prize.y = 20 * prize.row + 40;//yè½´ä½ç½®
+				//æ’åˆ°å¥–å“æ•°ç»„ï¼Œç”¨æ¥æç»˜
 				prizes[count] = prize;
 				count++;		
 			}
@@ -141,7 +141,7 @@
 		beer.angle += beerAngle;
 		ctx.save();
 		
-		ctx.translate(beer.x + (beer.image.width/2), beer.y + (beer.image.height/2)); // ½«×ø±êÔ²ĞÄÒÆµ½ĞÜµÄÖĞĞÄÎ»ÖÃ
+		ctx.translate(beer.x + (beer.image.width/2), beer.y + (beer.image.height/2)); // å°†åæ ‡åœ†å¿ƒç§»åˆ°ç†Šçš„ä¸­å¿ƒä½ç½®
 		ctx.rotate(beer.angle * Math.PI/180);
 		ctx.drawImage(beer.image, -beer.image.width/2, -beer.image.height/2);
 		
@@ -157,7 +157,7 @@
 		ctx.drawImage(livesImg[lives], 0, 0);
 	}
 	
-	//Ãè»æ·ÖÊı
+	//æç»˜åˆ†æ•°
 	function DrawScore()
 	{
 		ctx.drawImage(scoreImg, screenX-(scoreImg.width),0);
@@ -179,20 +179,20 @@
 	}
 	
 	function beerHitedge(){
-	//ĞÜÅöµ½ÓÒ±ß±ß½ç
+	//ç†Šç¢°åˆ°å³è¾¹è¾¹ç•Œ
 		if(beer.x > screenX - beer.image.width)
 		{
 			if(horizonSpeed > 0){
 				horizonSpeed = -horizonSpeed;
 			}
 		}
-	//ĞÜÅöµ½×ó±ß±ß½ç
+	//ç†Šç¢°åˆ°å·¦è¾¹è¾¹ç•Œ
 		if(beer.x<-10)
 		{
-			if(horizonSpeed < 0)//¼ÙÈçÏò×óÒÆ¶¯
-				horizonSpeed = -horizonSpeed;//¸Ä±äË®Æ½ËÙ¶È·½Ïò
+			if(horizonSpeed < 0)//å‡å¦‚å‘å·¦ç§»åŠ¨
+				horizonSpeed = -horizonSpeed;//æ”¹å˜æ°´å¹³é€Ÿåº¦æ–¹å‘
 		}
-	//ĞÜÅöµ½ÏÂÃæ±ß½ç
+	//ç†Šç¢°åˆ°ä¸‹é¢è¾¹ç•Œ
 		if(beer.y>screenY - beer.image.height)
 		{
 			lives -= 1;
@@ -206,7 +206,7 @@
 				$('#startBtn').show();
 			}
 		}
-	//ĞÜÅöµ½ÉÏ±ß±ß½ç
+	//ç†Šç¢°åˆ°ä¸Šè¾¹è¾¹ç•Œ
 		if(beer.y<0)
 		{
 			verticalSpeed = -verticalSpeed;
@@ -227,15 +227,15 @@
 			C2 = object2.y + overlap;
 			D2 = object2.y + object2.image.width - overlap;
 		 
-			//¼ÙÈçËûÃÇÔÚx-ÖáÖØµş
+			//å‡å¦‚ä»–ä»¬åœ¨x-è½´é‡å 
 			if(A1 > A2 && A1 < B2
 			   || B1 > A2 && B1 < B2)
 			{
-				//ÅĞ¶Ïy-ÖáÖØµş
+				//åˆ¤æ–­y-è½´é‡å 
 				if(C1 > C2 && C1 < D1
 			   || D1 > C2 && D1 < D2)
 				{
-					//Åö×²
+					//ç¢°æ’
 					return true;
 				}
 		 
@@ -245,21 +245,21 @@
 	}
 	function HasAnimalHitMushroom()
 	{
-		//¼ÙÈçÅö×²
+		//å‡å¦‚ç¢°æ’
 		if(checkCrash(beer, mushroom, 0))
 		{
-			//¼ÙÈçÅö×²µÄÎ»ÖÃÊôÓÚÄ¢¹½µÄ×óÏÂÎ»ÖÃ
+			//å‡å¦‚ç¢°æ’çš„ä½ç½®å±äºè˜‘è‡çš„å·¦ä¸‹ä½ç½®
 			if((beer.x + beer.image.width/2) < (mushroom.x + mushroom.image.width*0.25))
 			{
-				horizonSpeed = -speed;//·´µ¯
+				horizonSpeed = -speed;//åå¼¹
 			}
-			//¼ÙÈçÅö×²µÄÎ»ÖÃÊôÓÚÄ¢¹½µÄ×óÉÏÎ»ÖÃ
+			//å‡å¦‚ç¢°æ’çš„ä½ç½®å±äºè˜‘è‡çš„å·¦ä¸Šä½ç½®
 			else if((beer.x + beer.image.width/2) < (mushroom.x + mushroom.image.width*0.5))
 			{
-				//·´µ¯ËÙ¶È¼õ°ë
+				//åå¼¹é€Ÿåº¦å‡åŠ
 				horizonSpeed = -speed/2;
 			}
-			//¼ÙÈçÅö×²µÄÎ»ÖÃÊôÓÚÄ¢¹½µÄÓÒÉÏÎ»ÖÃ
+			//å‡å¦‚ç¢°æ’çš„ä½ç½®å±äºè˜‘è‡çš„å³ä¸Šä½ç½®
 			else if((beer.x + beer.image.width/2) < (mushroom.x + mushroom.image.width*0.75))
 			{
 				horizonSpeed = speed/2;
@@ -268,7 +268,7 @@
 			{
 				horizonSpeed = speed;
 			}
-			verticalSpeed = -speed;//¸Ä±ä´¹Ö±ËÙ¶È¡£Ò²¼´¶¯ÎïÏòÉÏÒÆ¶¯
+			verticalSpeed = -speed;//æ”¹å˜å‚ç›´é€Ÿåº¦ã€‚ä¹Ÿå³åŠ¨ç‰©å‘ä¸Šç§»åŠ¨
 	 
 		}
 	}
@@ -284,21 +284,21 @@
 		}
 		return true;
 	}
-	//×²µ½½±Æ·
+	//æ’åˆ°å¥–å“
 	function HasAnimalHitPrize()
 	{
-		//È¡³öËùÓĞ½±Æ·
+		//å–å‡ºæ‰€æœ‰å¥–å“
 		for(var x=0; x<prizes.length; x++)
 		{
 			var prize = prizes[x];
-			//¼ÙÈçÃ»ÓĞÅö×²¹ı
+			//å‡å¦‚æ²¡æœ‰ç¢°æ’è¿‡
 			if(!prize.hit)
 			{
-				//ÅĞ¶ÏÅö×²
+				//åˆ¤æ–­ç¢°æ’
 				if(checkCrash(prize, beer, 0))
 				{
 					prize.hit = true;
-					//ĞÜ·´µ¯ÏÂ³Á
+					//ç†Šåå¼¹ä¸‹æ²‰
 					verticalSpeed = speed;
 					score += prize.point;
 				}
